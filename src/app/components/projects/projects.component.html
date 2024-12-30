@@ -37,8 +37,7 @@
       <p class="category">{{ selectedProject.category }}</p>
       <p class="description">{{ selectedProject.description }}</p>
       <div class="details">
-        <p><strong>Material:</strong> {{ selectedProject.material }}</p>
-        <p><strong>Fertigstellung:</strong> {{ selectedProject.completion }}</p>
+        <p><strong>Fertigstellung:</strong> {{ selectedProject.completionDate | date:'MMMM yyyy':'':'de-CH' }}</p>
       </div>
     </div>
   </div>
