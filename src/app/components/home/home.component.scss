@@ -89,55 +89,72 @@
       }
     }
 
-    p {
+    .section-intro {
       text-align: center;
       font-size: 1.2rem;
       line-height: 1.8;
       color: #666;
       margin-bottom: 3rem;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
     }
   }
 }
 
 .story {
-  max-width: 900px;
-  margin: 0 auto 6rem;
-  padding: 3rem;
-  background: #fff;
-  border-radius: 16px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+  margin: 0 auto 4rem;
+  padding: 0 1rem;
 
-  .history {
-    margin-bottom: 3rem;
-    padding-bottom: 3rem;
-    border-bottom: 2px solid #f0f0f0;
+  .history-card {
+    background: #fff;
+    padding: 2.5rem;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+
+    &:hover {
+      transform: translateY(-5px);
+    }
+
+    h3 {
+      color: #8b4513;
+      font-size: 1.8rem;
+      margin-bottom: 1.5rem;
+      position: relative;
+      padding-bottom: 1rem;
+
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 40px;
+        height: 2px;
+        background: #8b4513;
+      }
+    }
 
     p {
       color: #444;
       line-height: 1.9;
-      font-size: 1.25rem;
+      font-size: 1.15rem;
+      margin-bottom: 1.5rem;
       text-align: justify;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
     }
   }
+}
 
-  .current p {
-    color: #666;
-    line-height: 1.8;
-    margin-bottom: 1.8rem;
-    font-size: 1.15rem;
-
-    &:last-of-type {
-      margin-bottom: 0;
-    }
-  }
-
-  .signature {
-    color: #8b4513;
-    font-style: italic;
-    text-align: right;
-    margin-top: 3rem;
-    font-size: 1.2rem;
-  }
+.divider {
+  height: 2px;
+  background: linear-gradient(to right, transparent, #8b4513, transparent);
+  margin: 4rem auto;
+  max-width: 200px;
 }
 
 .services {
@@ -213,15 +230,33 @@
   
   .about {
     padding: 4rem 0;
-    .container h2 { font-size: 2.5rem; }
+    
+    .container h2 { 
+      font-size: 2.5rem; 
+    }
+
+    .section-intro {
+      font-size: 1.1rem;
+      padding: 0 1rem;
+    }
   }
   
   .story {
-    padding: 1.5rem;
-    margin: 2rem 1rem 4rem;
-    
-    .history p { font-size: 1.1rem; }
-    .current p { font-size: 1rem; }
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    padding: 0 1rem;
+
+    .history-card, .current-card {
+      padding: 1.5rem;
+
+      h3 {
+        font-size: 1.5rem;
+      }
+
+      p {
+        font-size: 1rem;
+      }
+    }
   }
 
   .services {
