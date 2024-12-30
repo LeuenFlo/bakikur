@@ -1,0 +1,45 @@
+<section class="projects">
+  <div class="container">
+    <h1>Unsere Projekte</h1>
+    <p class="intro">Entdecken Sie eine Auswahl unserer realisierten Projekte. Jedes Stück ist ein Unikat, gefertigt mit Liebe zum Detail und höchster handwerklicher Präzision.</p>
+    
+    <div class="project-filters">
+      <button class="filter-btn" [class.active]="activeFilter === 'all'" (click)="filterProjects('all')">Alle</button>
+      <button class="filter-btn" [class.active]="activeFilter === 'moebel'" (click)="filterProjects('moebel')">Möbel</button>
+      <button class="filter-btn" [class.active]="activeFilter === 'innenausbau'" (click)="filterProjects('innenausbau')">Innenausbau</button>
+      <button class="filter-btn" [class.active]="activeFilter === 'restaurierung'" (click)="filterProjects('restaurierung')">Restaurierung</button>
+    </div>
+
+    <div class="project-grid">
+      <div class="project-card" *ngFor="let project of filteredProjects" (click)="openProjectDetails(project)">
+        <div class="project-image">
+          <img [src]="project.imageUrl" [alt]="project.title">
+        </div>
+        <div class="project-info">
+          <h3>{{ project.title }}</h3>
+          <p>{{ project.description }}</p>
+          <span class="category">{{ project.category }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Modal für Projektdetails -->
+<div class="project-modal" *ngIf="selectedProject" (click)="closeProjectDetails()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <button class="close-btn" (click)="closeProjectDetails()">&times;</button>
+    <div class="modal-image">
+      <img [src]="selectedProject.imageUrl" [alt]="selectedProject.title">
+    </div>
+    <div class="modal-info">
+      <h2>{{ selectedProject.title }}</h2>
+      <p class="category">{{ selectedProject.category }}</p>
+      <p class="description">{{ selectedProject.description }}</p>
+      <div class="details">
+        <p><strong>Material:</strong> {{ selectedProject.material }}</p>
+        <p><strong>Fertigstellung:</strong> {{ selectedProject.completion }}</p>
+      </div>
+    </div>
+  </div>
+</div>

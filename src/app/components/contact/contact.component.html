@@ -1,0 +1,52 @@
+<section class="contact">
+  <div class="container">
+    <h1>Kontaktieren Sie uns</h1>
+    
+    <div class="contact-grid">
+      <div class="contact-form">
+        <h2>Schreiben Sie uns</h2>
+        <form (ngSubmit)="onSubmit()" #contactForm="ngForm">
+          <div class="form-group">
+            <label for="name">Name *</label>
+            <input type="text" id="name" required [(ngModel)]="contact.name" name="name" placeholder="Ihr Name">
+          </div>
+          
+          <div class="form-group">
+            <label for="email">E-Mail *</label>
+            <input type="email" id="email" required [(ngModel)]="contact.email" name="email" placeholder="Ihre E-Mail-Adresse">
+          </div>
+          
+          <div class="form-group">
+            <label for="message">Nachricht *</label>
+            <textarea id="message" required [(ngModel)]="contact.message" name="message" rows="5" placeholder="Ihre Nachricht an uns"></textarea>
+          </div>
+          
+          <button type="submit" [disabled]="!contactForm.form.valid">Nachricht senden</button>
+        </form>
+        <p class="success-message" *ngIf="submitted">Vielen Dank für Ihre Nachricht! Wir werden uns bald bei Ihnen melden.</p>
+      </div>
+
+      <div class="contact-info">
+        <div class="info-box">
+          <h3>Unsere Werkstatt</h3>
+          <p>Neubrückstrasse 8</p>
+          <p>3012 Bern</p>
+          <p>Tel: 031 306 69 57</p>
+          <p>E-Mail: bakikur&#64;reitschule.ch</p>
+          
+          <div class="location-link">
+            <a href="https://maps.google.com/?q=Neubrückstrasse+8,+3012+Bern" target="_blank" rel="noopener noreferrer">
+              <i class="fas fa-map"></i> Auf Google Maps anzeigen
+            </a>
+          </div>
+        </div>
+
+        <div class="info-box">
+          <h3>Öffnungszeiten</h3>
+          <p>Montag - Freitag</p>
+          <p>Nach Vereinbarung</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

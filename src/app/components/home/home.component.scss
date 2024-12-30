@@ -1,0 +1,243 @@
+.hero {
+  height: 100vh;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.4)), url('/assets/wallpapers/wallpaper.webp');
+    background-size: cover;
+    background-position: center;
+    filter: blur(2px);
+    transform: scale(1.1);
+  }
+
+  .hero-content {
+    position: relative;
+    max-width: 1000px;
+    width: 90%;
+    padding: 2rem;
+    border-radius: 16px;
+
+    h1 {
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      margin-bottom: 1rem;
+      font-weight: 700;
+      color: #fff;
+      text-shadow: 
+        2px 2px 4px rgba(0, 0, 0, 0.5),
+        -1px -1px 0 rgba(0, 0, 0, 0.7),
+        1px -1px 0 rgba(0, 0, 0, 0.7),
+        -1px 1px 0 rgba(0, 0, 0, 0.7),
+        1px 1px 0 rgba(0, 0, 0, 0.7);
+      white-space: normal;
+      line-height: 1.2;
+    }
+
+    .subtitle {
+      font-size: clamp(1.2rem, 4vw, 2rem);
+      margin-bottom: 1.5rem;
+      font-weight: 300;
+      font-style: italic;
+      color: #fff;
+      text-shadow: 
+        1px 1px 3px rgba(0, 0, 0, 0.5),
+        -1px -1px 0 rgba(0, 0, 0, 0.5),
+        1px -1px 0 rgba(0, 0, 0, 0.5),
+        -1px 1px 0 rgba(0, 0, 0, 0.5),
+        1px 1px 0 rgba(0, 0, 0, 0.5);
+      line-height: 1.4;
+    }
+
+    p {
+      font-size: clamp(1rem, 3vw, 1.5rem);
+      color: #fff;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+      line-height: 1.5;
+    }
+  }
+}
+
+.about {
+  padding: 8rem 0;
+  background-color: #fff;
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+
+    h2 {
+      text-align: center;
+      font-size: 3rem;
+      margin-bottom: 3rem;
+      color: #333;
+      
+      &::after {
+        content: '';
+        display: block;
+        width: 80px;
+        height: 3px;
+        background: #8b4513;
+        margin: 1rem auto 0;
+      }
+    }
+
+    p {
+      text-align: center;
+      font-size: 1.2rem;
+      line-height: 1.8;
+      color: #666;
+      margin-bottom: 3rem;
+    }
+  }
+}
+
+.story {
+  max-width: 900px;
+  margin: 0 auto 6rem;
+  padding: 3rem;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+
+  .history {
+    margin-bottom: 3rem;
+    padding-bottom: 3rem;
+    border-bottom: 2px solid #f0f0f0;
+
+    p {
+      color: #444;
+      line-height: 1.9;
+      font-size: 1.25rem;
+      text-align: justify;
+    }
+  }
+
+  .current p {
+    color: #666;
+    line-height: 1.8;
+    margin-bottom: 1.8rem;
+    font-size: 1.15rem;
+
+    &:last-of-type {
+      margin-bottom: 0;
+    }
+  }
+
+  .signature {
+    color: #8b4513;
+    font-style: italic;
+    text-align: right;
+    margin-top: 3rem;
+    font-size: 1.2rem;
+  }
+}
+
+.services {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2.5rem;
+  margin-top: 4rem;
+
+  .service-card {
+    background: #fff;
+    padding: 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 0;
+      background: #8b4513;
+      transition: height 0.3s ease;
+    }
+
+    &:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+
+      &::before {
+        height: 100%;
+      }
+    }
+
+    h3 {
+      font-size: 1.8rem;
+      margin-bottom: 1.5rem;
+      color: #333;
+      position: relative;
+      padding-bottom: 1rem;
+
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 40px;
+        height: 2px;
+        background: #8b4513;
+      }
+    }
+
+    p {
+      font-size: 1.1rem;
+      color: #666;
+      margin-bottom: 0;
+      text-align: left;
+      line-height: 1.8;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .hero {
+    .hero-content {
+      padding: 1.5rem;
+      width: 95%;
+    }
+  }
+  
+  .about {
+    padding: 4rem 0;
+    .container h2 { font-size: 2.5rem; }
+  }
+  
+  .story {
+    padding: 1.5rem;
+    margin: 2rem 1rem 4rem;
+    
+    .history p { font-size: 1.1rem; }
+    .current p { font-size: 1rem; }
+  }
+
+  .services {
+    gap: 1.5rem;
+    padding: 0 1rem;
+    
+    .service-card {
+      padding: 1.5rem;
+      
+      h3 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+      }
+    }
+  }
+}
