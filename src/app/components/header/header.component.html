@@ -7,6 +7,10 @@
       <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
       <a routerLink="/projekte" routerLinkActive="active">Projekte</a>
       <a routerLink="/kontakt" routerLinkActive="active">Kontakt</a>
+      <ng-container *ngIf="authService.isAuthenticated() | async">
+        <a routerLink="/admin" routerLinkActive="active" class="admin-link">Projekte hinzufügen</a>
+        <button class="logout-btn" (click)="onLogout()">Abmelden</button>
+      </ng-container>
     </nav>
   </div>
 </header>
