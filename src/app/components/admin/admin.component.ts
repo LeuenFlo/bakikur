@@ -4,11 +4,17 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { ProjectService, CreateProjectDTO } from '../../services/project.service';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-admin',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    DragDropModule
+  ],
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.scss']
 })
@@ -21,7 +27,7 @@ export class AdminComponent {
     images: []
   };
 
-  imagePreviews: string[] = [];
+  imagePreviews: { file: File; preview: string }[] = [];
   isSubmitting = false;
 
   constructor(
@@ -33,19 +39,34 @@ export class AdminComponent {
   onFileSelected(event: any) {
     const files = event.target.files;
     if (files && files.length > 0) {
-      this.newProject.images = Array.from(files);
-      this.imagePreviews = [];
-      
       Array.from(files).forEach(file => {
         if (file instanceof File && file.type.startsWith('image/')) {
           const reader = new FileReader();
           reader.onload = () => {
-            this.imagePreviews.push(reader.result as string);
+            this.imagePreviews.push({
+              file: file,
+              preview: reader.result as string
+            });
+            this.updateProjectImages();
           };
           reader.readAsDataURL(file);
         }
       });
     }
+  }
+
+  onDrop(event: CdkDragDrop<string[]>) {
+    moveItemInArray(this.imagePreviews, event.previousIndex, event.currentIndex);
+    this.updateProjectImages();
+  }
+
+  removeImage(index: number) {
+    this.imagePreviews.splice(index, 1);
+    this.updateProjectImages();
+  }
+
+  private updateProjectImages() {
+    this.newProject.images = this.imagePreviews.map(item => item.file);
   }
 
   onSubmit() {

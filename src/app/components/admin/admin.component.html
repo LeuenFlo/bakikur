@@ -58,9 +58,20 @@
           <div class="form-group image-upload">
             <label for="image">Projektbilder</label>
             <div class="image-preview-container" [class.has-images]="imagePreviews.length > 0">
-              <div class="image-previews" *ngIf="imagePreviews.length > 0">
-                <div class="image-preview" *ngFor="let preview of imagePreviews">
-                  <img [src]="preview" alt="Bildvorschau">
+              <div 
+                class="image-previews" 
+                *ngIf="imagePreviews.length > 0"
+                cdkDropList
+                (cdkDropListDropped)="onDrop($event)">
+                <div 
+                  class="image-preview" 
+                  *ngFor="let preview of imagePreviews; let i = index"
+                  cdkDrag>
+                  <img [src]="preview.preview" alt="Bildvorschau">
+                  <div class="image-preview-overlay">
+                    <button type="button" class="remove-image" (click)="removeImage(i)">×</button>
+                  </div>
+                  <div class="image-number">{{ i + 1 }}</div>
                 </div>
               </div>
               <div class="upload-placeholder" *ngIf="imagePreviews.length === 0">
@@ -78,7 +89,7 @@
                 #fileInput>
             </div>
             <button type="button" class="change-image-btn" *ngIf="imagePreviews.length > 0" (click)="fileInput.click()">
-              Bilder ändern
+              Bilder hinzufügen
             </button>
             <div class="error-message" *ngIf="projectForm.submitted && newProject.images.length === 0">
               Bitte wählen Sie mindestens ein Bild aus
