@@ -19,6 +19,13 @@
           <h3>{{ project.title }}</h3>
           <p>{{ project.description }}</p>
           <span class="category">{{ project.category }}</span>
+          <button 
+            *ngIf="authService.isAuthenticated() | async" 
+            class="delete-btn" 
+            (click)="deleteProject(project, $event)"
+            title="Projekt löschen">
+            <img src="assets/images/trashcan.png" alt="Löschen">
+          </button>
         </div>
       </div>
     </div>

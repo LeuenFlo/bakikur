@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { ProjectService, CreateProjectDTO } from '../../services/project.service';
 
 @Component({
   selector: 'app-admin',
@@ -12,22 +13,21 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./admin.component.scss']
 })
 export class AdminComponent {
-  private apiUrl = 'http://localhost:5040/api/projects';
-  
-  newProject = {
+  newProject: CreateProjectDTO = {
     title: '',
     description: '',
     category: '',
     completionDate: '',
-    image: null as File | null
+    image: null as unknown as File
   };
 
   imagePreview: string | null = null;
   isSubmitting = false;
 
   constructor(
-    private http: HttpClient,
-    private authService: AuthService
+    private projectService: ProjectService,
+    private authService: AuthService,
+    private router: Router
   ) {}
 
   onFileSelected(event: any) {
@@ -51,26 +51,10 @@ export class AdminComponent {
     }
 
     this.isSubmitting = true;
-    const formData = new FormData();
-    formData.append('title', this.newProject.title);
-    formData.append('description', this.newProject.description);
-    formData.append('category', this.newProject.category);
-    formData.append('completionDate', this.newProject.completionDate);
-    formData.append('image', this.newProject.image);
-
-    this.http.post(this.apiUrl, formData).subscribe({
-      next: (response) => {
+    this.projectService.createProject(this.newProject).subscribe({
+      next: () => {
         alert('Projekt erfolgreich hinzugefügt');
-        // Formular zurücksetzen
-        this.newProject = {
-          title: '',
-          description: '',
-          category: '',
-          completionDate: '',
-          image: null
-        };
-        this.imagePreview = null;
-        this.isSubmitting = false;
+        this.router.navigate(['/projekte']);
       },
       error: (error) => {
         console.error('Fehler beim Hinzufügen des Projekts:', error);
