@@ -45,11 +45,6 @@ export class ProjectService {
   }
 
   createProject(project: CreateProjectDTO): Observable<Project> {
-    const headers = new HttpHeaders().set(
-      'Authorization',
-      `Bearer ${this.authService.getToken()}`
-    );
-
     const formData = new FormData();
     formData.append('title', project.title);
     formData.append('description', project.description);
@@ -57,7 +52,7 @@ export class ProjectService {
     formData.append('completionDate', project.completionDate);
     formData.append('image', project.image);
 
-    return this.http.post<Project>(this.apiUrl, formData, { headers }).pipe(
+    return this.http.post<Project>(this.apiUrl, formData).pipe(
       tap(() => {
         this.router.navigate(['/projects']);
       })
@@ -65,12 +60,7 @@ export class ProjectService {
   }
 
   deleteProject(projectId: number): Observable<void> {
-    const headers = new HttpHeaders().set(
-      'Authorization',
-      `Bearer ${this.authService.getToken()}`
-    );
-
-    return this.http.delete<void>(`${this.apiUrl}/${projectId}`, { headers });
+    return this.http.delete<void>(`${this.apiUrl}/${projectId}`);
   }
 
   private getFullImageUrl(imageUrl: string): string {
