@@ -77,12 +77,16 @@
             <button type="button" class="change-image-btn" *ngIf="imagePreview" (click)="fileInput.click()">
               Bild ändern
             </button>
+            <div class="error-message" *ngIf="projectForm.submitted && !newProject.image">
+              Bitte wählen Sie ein Bild aus
+            </div>
           </div>
         </div>
       </div>
 
       <div class="form-actions">
-        <button type="submit" [disabled]="!projectForm.form.valid || isSubmitting">
+        <button type="button" class="cancel-btn" (click)="cancel()">Abbrechen</button>
+        <button type="submit" [disabled]="!projectForm.form.valid || isSubmitting || !newProject.image">
           {{ isSubmitting ? 'Wird gespeichert...' : 'Projekt hinzufügen' }}
         </button>
       </div>

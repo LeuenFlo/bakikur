@@ -67,4 +67,8 @@ export class AdminComponent {
   logout() {
     this.authService.logout();
   }
+
+  cancel() {
+    this.router.navigate(['/projekte']);
+  }
 } 
