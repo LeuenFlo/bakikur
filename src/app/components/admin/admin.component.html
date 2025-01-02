@@ -56,29 +56,32 @@
 
         <div class="form-column">
           <div class="form-group image-upload">
-            <label for="image">Projektbild</label>
-            <div class="image-preview-container" [class.has-image]="imagePreview">
-              <div class="image-preview" *ngIf="imagePreview">
-                <img [src]="imagePreview" alt="Bildvorschau">
+            <label for="image">Projektbilder</label>
+            <div class="image-preview-container" [class.has-images]="imagePreviews.length > 0">
+              <div class="image-previews" *ngIf="imagePreviews.length > 0">
+                <div class="image-preview" *ngFor="let preview of imagePreviews">
+                  <img [src]="preview" alt="Bildvorschau">
+                </div>
               </div>
-              <div class="upload-placeholder" *ngIf="!imagePreview">
+              <div class="upload-placeholder" *ngIf="imagePreviews.length === 0">
                 <i class="upload-icon">📸</i>
-                <span>Klicken Sie hier oder ziehen Sie ein Bild hierher</span>
+                <span>Klicken Sie hier oder ziehen Sie Bilder hierher</span>
               </div>
               <input 
                 type="file" 
                 id="image" 
                 name="image" 
                 (change)="onFileSelected($event)" 
-                accept="image/*" 
+                accept="image/*"
+                multiple
                 required
                 #fileInput>
             </div>
-            <button type="button" class="change-image-btn" *ngIf="imagePreview" (click)="fileInput.click()">
-              Bild ändern
+            <button type="button" class="change-image-btn" *ngIf="imagePreviews.length > 0" (click)="fileInput.click()">
+              Bilder ändern
             </button>
-            <div class="error-message" *ngIf="projectForm.submitted && !newProject.image">
-              Bitte wählen Sie ein Bild aus
+            <div class="error-message" *ngIf="projectForm.submitted && newProject.images.length === 0">
+              Bitte wählen Sie mindestens ein Bild aus
             </div>
           </div>
         </div>
@@ -86,7 +89,7 @@
 
       <div class="form-actions">
         <button type="button" class="cancel-btn" (click)="cancel()">Abbrechen</button>
-        <button type="submit" [disabled]="!projectForm.form.valid || isSubmitting || !newProject.image">
+        <button type="submit" [disabled]="!projectForm.form.valid || isSubmitting || newProject.images.length === 0">
           {{ isSubmitting ? 'Wird gespeichert...' : 'Projekt hinzufügen' }}
         </button>
       </div>

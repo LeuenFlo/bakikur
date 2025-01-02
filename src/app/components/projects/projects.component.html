@@ -13,7 +13,10 @@
     <div class="project-grid">
       <div class="project-card" *ngFor="let project of filteredProjects" (click)="openProjectDetails(project)">
         <div class="project-image">
-          <img [src]="project.imageUrl" [alt]="project.title">
+          <img [src]="project.images[0].imageUrl" [alt]="project.title">
+          <div class="image-count" *ngIf="project.images.length > 1">
+            +{{ project.images.length - 1 }}
+          </div>
         </div>
         <div class="project-info">
           <h3>{{ project.title }}</h3>
@@ -38,8 +41,21 @@
 <div class="project-modal" *ngIf="selectedProject" (click)="closeProjectDetails()">
   <div class="modal-content" (click)="$event.stopPropagation()">
     <button class="close-btn" (click)="closeProjectDetails()">&times;</button>
-    <div class="modal-image">
-      <img [src]="selectedProject.imageUrl" [alt]="selectedProject.title">
+    <div class="modal-gallery">
+      <div class="gallery-main">
+        <button class="gallery-nav prev" *ngIf="currentImageIndex > 0" (click)="previousImage()">&lt;</button>
+        <img [src]="selectedProject.images[currentImageIndex].imageUrl" [alt]="selectedProject.title">
+        <button class="gallery-nav next" *ngIf="currentImageIndex < selectedProject.images.length - 1" (click)="nextImage()">&gt;</button>
+      </div>
+      <div class="gallery-thumbnails" *ngIf="selectedProject.images.length > 1">
+        <div 
+          class="thumbnail" 
+          *ngFor="let image of selectedProject.images; let i = index"
+          [class.active]="i === currentImageIndex"
+          (click)="setCurrentImage(i)">
+          <img [src]="image.imageUrl" [alt]="selectedProject.title + ' Thumbnail ' + (i + 1)">
+        </div>
+      </div>
     </div>
     <div class="modal-info">
       <h2>{{ selectedProject.title }}</h2>

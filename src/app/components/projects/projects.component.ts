@@ -16,6 +16,7 @@ export class ProjectsComponent implements OnInit {
   filteredProjects: Project[] = [];
   selectedProject: Project | null = null;
   activeFilter: string = 'all';
+  currentImageIndex: number = 0;
 
   constructor(
     private projectService: ProjectService,
@@ -74,10 +75,28 @@ export class ProjectsComponent implements OnInit {
 
   openProjectDetails(project: Project) {
     this.selectedProject = project;
+    this.currentImageIndex = 0;
   }
 
   closeProjectDetails() {
     this.selectedProject = null;
+    this.currentImageIndex = 0;
+  }
+
+  previousImage() {
+    if (this.currentImageIndex > 0) {
+      this.currentImageIndex--;
+    }
+  }
+
+  nextImage() {
+    if (this.selectedProject && this.currentImageIndex < this.selectedProject.images.length - 1) {
+      this.currentImageIndex++;
+    }
+  }
+
+  setCurrentImage(index: number) {
+    this.currentImageIndex = index;
   }
 
   deleteProject(project: Project, event: Event) {

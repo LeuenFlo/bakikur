@@ -18,10 +18,10 @@ export class AdminComponent {
     description: '',
     category: '',
     completionDate: '',
-    image: null as unknown as File
+    images: []
   };
 
-  imagePreview: string | null = null;
+  imagePreviews: string[] = [];
   isSubmitting = false;
 
   constructor(
@@ -31,22 +31,26 @@ export class AdminComponent {
   ) {}
 
   onFileSelected(event: any) {
-    const file = event.target.files[0];
-    if (file && file.type.startsWith('image/')) {
-      this.newProject.image = file;
+    const files = event.target.files;
+    if (files && files.length > 0) {
+      this.newProject.images = Array.from(files);
+      this.imagePreviews = [];
       
-      // Erstelle Bildvorschau
-      const reader = new FileReader();
-      reader.onload = () => {
-        this.imagePreview = reader.result as string;
-      };
-      reader.readAsDataURL(file);
+      Array.from(files).forEach(file => {
+        if (file instanceof File && file.type.startsWith('image/')) {
+          const reader = new FileReader();
+          reader.onload = () => {
+            this.imagePreviews.push(reader.result as string);
+          };
+          reader.readAsDataURL(file);
+        }
+      });
     }
   }
 
   onSubmit() {
-    if (!this.newProject.image) {
-      alert('Bitte wählen Sie ein Bild aus');
+    if (this.newProject.images.length === 0) {
+      alert('Bitte wählen Sie mindestens ein Bild aus');
       return;
     }
 

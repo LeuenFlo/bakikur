@@ -5,12 +5,17 @@ import { AuthService } from './auth.service';
 import { environment } from '../../environments/environment';
 import { Router } from '@angular/router';
 
+export interface ProjectImage {
+  id: number;
+  imageUrl: string;
+}
+
 export interface Project {
   id: number;
   title: string;
   description: string;
   category: 'moebel' | 'innenausbau' | 'restaurierung';
-  imageUrl: string;
+  images: ProjectImage[];
   completionDate: string;
 }
 
@@ -19,7 +24,7 @@ export interface CreateProjectDTO {
   description: string;
   category: string;
   completionDate: string;
-  image: File;
+  images: File[];
 }
 
 @Injectable({
@@ -39,7 +44,10 @@ export class ProjectService {
     return this.http.get<Project[]>(this.apiUrl).pipe(
       map(projects => projects.map(project => ({
         ...project,
-        imageUrl: this.getFullImageUrl(project.imageUrl)
+        images: project.images.map(img => ({
+          ...img,
+          imageUrl: this.getFullImageUrl(img.imageUrl)
+        }))
       })))
     );
   }
@@ -50,7 +58,9 @@ export class ProjectService {
     formData.append('description', project.description);
     formData.append('category', project.category);
     formData.append('completionDate', project.completionDate);
-    formData.append('image', project.image);
+    project.images.forEach((image, index) => {
+      formData.append('images', image);
+    });
 
     return this.http.post<Project>(this.apiUrl, formData).pipe(
       tap(() => {
