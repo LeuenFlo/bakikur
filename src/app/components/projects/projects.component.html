@@ -10,7 +10,13 @@
       <button class="filter-btn" [class.active]="activeFilter === 'restaurierung'" (click)="filterProjects('restaurierung')">Restaurierung</button>
     </div>
 
-    <div class="project-grid">
+    <div *ngIf="showLoading" class="loading-container">
+      <div class="spinner"></div>
+      <p>Projekte werden geladen</p>
+      <span class="loading-dots"><span>.</span><span>.</span><span>.</span></span>
+    </div>
+
+    <div class="project-grid" *ngIf="!loading">
       <div class="project-card" *ngFor="let project of filteredProjects" (click)="openProjectDetails(project)">
         <div class="project-image">
           <img [src]="project.images[0].imageUrl" [alt]="project.title">

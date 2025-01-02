@@ -17,6 +17,9 @@ export class ProjectsComponent implements OnInit {
   selectedProject: Project | null = null;
   activeFilter: string = 'all';
   currentImageIndex: number = 0;
+  loading: boolean = false;
+  showLoading: boolean = false;
+  private loadingTimeout: any;
 
   constructor(
     private projectService: ProjectService,
@@ -28,15 +31,30 @@ export class ProjectsComponent implements OnInit {
   }
 
   loadProjects() {
+    this.loading = true;
+    
+    // Start a timer to show loading state after 300ms
+    this.loadingTimeout = setTimeout(() => {
+      if (this.loading) {
+        this.showLoading = true;
+      }
+    }, 300);
+
     this.projectService.getProjects().subscribe({
       next: (data: Project[]) => {
         this.projects = data.sort((a, b) => {
           return new Date(b.completionDate).getTime() - new Date(a.completionDate).getTime();
         });
         this.applyFilter();
+        this.loading = false;
+        this.showLoading = false;
+        clearTimeout(this.loadingTimeout);
       },
       error: (error: Error) => {
         console.error('Error loading projects:', error);
+        this.loading = false;
+        this.showLoading = false;
+        clearTimeout(this.loadingTimeout);
       }
     });
   }

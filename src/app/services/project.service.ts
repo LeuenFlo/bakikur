@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, map, tap } from 'rxjs';
+import { Observable, map, tap, delay } from 'rxjs';
 import { AuthService } from './auth.service';
 import { environment } from '../../environments/environment';
 import { Router } from '@angular/router';
@@ -34,14 +34,23 @@ export class ProjectService {
   private apiUrl = `${environment.apiUrl}/projects`;
   private baseUrl = environment.baseUrl;
 
+  // For testing purposes
+  private testDelay = 0;
+
   constructor(
     private http: HttpClient,
     private authService: AuthService,
     private router: Router
   ) {}
 
+  // Method to set test delay
+  setTestDelay(milliseconds: number) {
+    this.testDelay = milliseconds;
+  }
+
   getProjects(): Observable<Project[]> {
     return this.http.get<Project[]>(this.apiUrl).pipe(
+      delay(this.testDelay), // Add artificial delay for testing
       map(projects => projects.map(project => ({
         ...project,
         images: project.images.map(img => ({
