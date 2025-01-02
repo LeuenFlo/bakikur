@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
-import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -17,12 +17,14 @@ export class AuthService {
     private router: Router
   ) {}
 
-  login(username: string, password: string): Observable<{token: string}> {
-    return this.http.post<{token: string}>(`${this.apiUrl}/login`, { username, password })
+  login(username: string, password: string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/login`, { username, password })
       .pipe(
         tap(response => {
-          localStorage.setItem(this.tokenKey, response.token);
-          this.isAuthenticatedSubject.next(true);
+          if (response.token) {
+            localStorage.setItem(this.tokenKey, response.token);
+            this.isAuthenticatedSubject.next(true);
+          }
         })
       );
   }
@@ -30,15 +32,15 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem(this.tokenKey);
     this.isAuthenticatedSubject.next(false);
-    this.router.navigate(['/login']);
-  }
-
-  getToken(): string | null {
-    return localStorage.getItem(this.tokenKey);
+    this.router.navigate(['/']);
   }
 
   isAuthenticated(): Observable<boolean> {
     return this.isAuthenticatedSubject.asObservable();
+  }
+
+  getToken(): string | null {
+    return localStorage.getItem(this.tokenKey);
   }
 
   private hasToken(): boolean {

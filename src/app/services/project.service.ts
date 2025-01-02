@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, map } from 'rxjs';
+import { Observable, map, tap } from 'rxjs';
 import { AuthService } from './auth.service';
 import { environment } from '../../environments/environment';
+import { Router } from '@angular/router';
 
 export interface Project {
   id: number;
@@ -30,7 +31,8 @@ export class ProjectService {
 
   constructor(
     private http: HttpClient,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) {}
 
   getProjects(): Observable<Project[]> {
@@ -55,7 +57,11 @@ export class ProjectService {
     formData.append('completionDate', project.completionDate);
     formData.append('image', project.image);
 
-    return this.http.post<Project>(this.apiUrl, formData, { headers });
+    return this.http.post<Project>(this.apiUrl, formData, { headers }).pipe(
+      tap(() => {
+        this.router.navigate(['/projects']);
+      })
+    );
   }
 
   deleteProject(projectId: number): Observable<void> {
