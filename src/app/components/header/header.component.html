@@ -3,13 +3,21 @@
     <div class="logo">
       <img src="assets/images/logo.jpg" alt="Bakikur Holz Logo">
     </div>
-    <nav class="nav">
-      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
-      <a routerLink="/projekte" routerLinkActive="active">Projekte</a>
-      <a routerLink="/kontakt" routerLinkActive="active">Kontakt</a>
+    <button class="hamburger" [class.active]="isMenuOpen" (click)="toggleMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <nav class="nav" [class.active]="isMenuOpen">
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" (click)="closeMenu()">Home</a>
+      <a routerLink="/projekte" routerLinkActive="active" (click)="closeMenu()">Projekte</a>
+      <a routerLink="/kontakt" routerLinkActive="active" (click)="closeMenu()">Kontakt</a>
       <ng-container *ngIf="authService.isAuthenticated() | async">
-        <a routerLink="/admin" routerLinkActive="active" class="admin-link">Projekte hinzufügen</a>
-        <button class="logout-btn" (click)="onLogout()">Abmelden</button>
+        <a routerLink="/admin" routerLinkActive="active" class="admin-link" (click)="closeMenu()">Projekte hinzufügen</a>
+        <button class="logout-btn" (click)="onLogout(); closeMenu()">Abmelden</button>
+      </ng-container>
+      <ng-container *ngIf="!(authService.isAuthenticated() | async)">
+        <button class="login-btn" (click)="onLogin(); closeMenu()">Login</button>
       </ng-container>
     </nav>
   </div>

@@ -87,6 +87,86 @@
         color: white;
       }
     }
+
+    .login-btn {
+      background: transparent;
+      border: none;
+      color: #999;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+      opacity: 0.6;
+
+      &:hover {
+        opacity: 1;
+        color: #666;
+      }
+    }
+  }
+}
+
+// Hamburger Menu Button
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 2.5rem;
+  height: 2rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 10;
+  position: relative;
+
+  span {
+    width: 100%;
+    height: 0.25rem;
+    background: #333;
+    border-radius: 10px;
+    transition: all 0.4s cubic-bezier(0.68, -0.6, 0.32, 1.6);
+    position: absolute;
+    left: 0;
+
+    &:first-child {
+      top: 0;
+      transform-origin: top left;
+    }
+
+    &:nth-child(2) {
+      top: 50%;
+      transform: translateY(-50%);
+      transform-origin: center;
+    }
+
+    &:last-child {
+      bottom: 0;
+      transform-origin: bottom left;
+    }
+  }
+
+  &:hover span {
+    background: #666;
+  }
+
+  &.active {
+    span {
+      &:first-child {
+        transform: rotate(45deg) translate(0.2rem, -0.2rem);
+        width: 2.2rem;
+      }
+
+      &:nth-child(2) {
+        transform: translateX(-1rem);
+        opacity: 0;
+      }
+
+      &:last-child {
+        transform: rotate(-45deg) translate(0.2rem, 0.2rem);
+        width: 2.2rem;
+      }
+    }
   }
 }
 
@@ -95,17 +175,40 @@
     padding: 0.8rem 0;
 
     .nav {
-      gap: 1rem;
+      position: fixed;
+      top: 0;
+      right: -100%;
+      height: 100vh;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.98);
+      flex-direction: column;
+      padding: 5rem 2rem;
+      transition: right 0.3s ease-in-out;
+      
+      &.active {
+        right: 0;
+      }
 
       a {
-        font-size: 1rem;
-        padding: 0.4rem 0.8rem;
+        font-size: 1.2rem;
+        padding: 1rem;
+        width: 100%;
+        text-align: center;
+        
+        &::after {
+          display: none;
+        }
       }
 
       .logout-btn {
-        padding: 0.4rem 0.8rem;
-        font-size: 0.8rem;
+        margin: 1rem 0;
+        width: 100%;
+        padding: 1rem;
       }
+    }
+
+    .hamburger {
+      display: flex;
     }
   }
 }

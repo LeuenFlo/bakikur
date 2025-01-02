@@ -14,8 +14,14 @@ body {
 }
 
 .main-content {
-  margin-top: 80px; /* Für den fixed Header */
+  margin-top: calc(40px + 2rem); /* Header-Höhe (40px) + Padding oben und unten (2rem) */
   min-height: calc(100vh - 80px);
+}
+
+@media (max-width: 768px) {
+  .main-content {
+    margin-top: calc(40px + 1.6rem); /* Header-Höhe (40px) + Mobile Padding (1.6rem) */
+  }
 }
 
 .page-title {
